@@ -25,7 +25,13 @@ gulp.task('process-css', () => {
 });
 
 gulp.task('concatJS', ['clean'], () => {
-	return gulp.src('src/js/*.js')
+	return gulp.src([
+		'src/js/jquery.js',
+		'src/js/foundation.js',
+		'src/js/foundation.reveal.js',
+		'src/js/foundation.equalizer.js',
+		'src/js/scripts.js'
+		])
 	.pipe(concat('app.js'))
 	.pipe(gulp.dest('src/js'));
 });
