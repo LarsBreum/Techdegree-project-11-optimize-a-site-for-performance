@@ -1269,7 +1269,7 @@ d[d.length]=encodeURIComponent(a)+"="+encodeURIComponent(b)};if(void 0===b&&(b=_
    * getAnimationData('pop')        // {animate: true,  pop: true,  fade: false}
    * getAnimationData('foo')        // {animate: false, pop: false, fade: false}
    * getAnimationData(null)         // {animate: false, pop: false, fade: false}
-   */
+   
   function getAnimationData(str) {
     var fade = /fade/i.test(str);
     var pop = /pop/i.test(str);
@@ -1280,7 +1280,7 @@ d[d.length]=encodeURIComponent(a)+"="+encodeURIComponent(b)};if(void 0===b&&(b=_
     };
   }
 }(jQuery, window, window.document));
-
+*/
 ;(function ($, window, document, undefined) {
   'use strict';
 

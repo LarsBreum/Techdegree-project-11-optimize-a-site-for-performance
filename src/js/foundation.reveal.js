@@ -509,7 +509,7 @@
    * getAnimationData('pop')        // {animate: true,  pop: true,  fade: false}
    * getAnimationData('foo')        // {animate: false, pop: false, fade: false}
    * getAnimationData(null)         // {animate: false, pop: false, fade: false}
-   */
+   
   function getAnimationData(str) {
     var fade = /fade/i.test(str);
     var pop = /pop/i.test(str);
@@ -520,3 +520,4 @@
     };
   }
 }(jQuery, window, window.document));
+*/
