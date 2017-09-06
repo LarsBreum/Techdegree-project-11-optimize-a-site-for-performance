@@ -7,6 +7,8 @@ const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
 const htmlmin = require('gulp-htmlmin');
 const image = require('gulp-image');
+const clean = require('gulp-clean');
+
 
 gulp.task('process-css', () => {
 	let plugins = [
@@ -21,7 +23,7 @@ gulp.task('process-css', () => {
 		.pipe(gulp.dest('./dist/css'));
 });
 
-gulp.task('concatJS', () => {
+gulp.task('concatJS', ['clean'], () => {
 	return gulp.src('./js/*.js')
 	.pipe(concat('app.js'))
 	.pipe(gulp.dest('js'));
@@ -34,11 +36,12 @@ gulp.task('minifyJS', ['concatJS'], () => {
 	.pipe(gulp.dest('./dist/js'))
 });
 
-gulp.task('minifyHTML', () => {
+gulp.task('minifyHTML', ['clean'], () => {
   return gulp.src('*.html')
     .pipe(htmlmin({collapseWhitespace: true}))
     .pipe(gulp.dest('dist'));
 });
+
 
 gulp.task('minifyImg', function () {
   gulp.src('img/*/*')
@@ -56,6 +59,11 @@ gulp.task('minifyImg', function () {
     .pipe(gulp.dest('./dist/img'));
 });
 
-gulp.task('build', ['process-css', 'concatJS', 'minifyJS', 'minifyHTML'])
+gulp.task('clean', () => {
+	return gulp.src(['./dist/css', './dist/js', './dist/*.html'])
+		.pipe(clean())
+});
+
+gulp.task('build', ['clean', 'process-css', 'concatJS', 'minifyJS', 'minifyHTML'])
 
 gulp.task('default', ['build']);
