@@ -8,6 +8,7 @@ const rename = require('gulp-rename');
 const htmlmin = require('gulp-htmlmin');
 const image = require('gulp-image');
 const clean = require('gulp-clean');
+const webserver = require('gulp-webserver');
 
 
 gulp.task('process-css', () => {
@@ -16,7 +17,7 @@ gulp.task('process-css', () => {
 			browsers: ['last 3 versions']
 		})
 	];
-	return gulp.src('./css/*.css')
+	return gulp.src('src/css/*.css')
 		.pipe(postcss(plugins))
 		.pipe(cleanCSS())
 		.pipe(concat('prod.min.css'))
@@ -24,27 +25,38 @@ gulp.task('process-css', () => {
 });
 
 gulp.task('concatJS', ['clean'], () => {
-	return gulp.src('./js/*.js')
+	return gulp.src('src/js/*.js')
 	.pipe(concat('app.js'))
-	.pipe(gulp.dest('js'));
+	.pipe(gulp.dest('src/js'));
 });
 
 gulp.task('minifyJS', ['concatJS'], () => {
-	return gulp.src('js/app.js')
+	return gulp.src('src/js/app.js')
 	.pipe(uglify())
 	.pipe(rename('prod.min.js'))
 	.pipe(gulp.dest('./dist/js'))
 });
 
 gulp.task('minifyHTML', ['clean'], () => {
-  return gulp.src('*.html')
+  return gulp.src('src/*.html')
     .pipe(htmlmin({collapseWhitespace: true}))
     .pipe(gulp.dest('dist'));
 });
 
+gulp.task('webserver', function() {
+  gulp.src('./dist')
+    .pipe(webserver({
+      livereload: true,
+      open: true
+    }));
+});
 
-gulp.task('minifyImg', function () {
-  gulp.src('img/*/*')
+gulp.task('cleanImg', () => {
+	return gulp.src(['./dist/img'])
+		.pipe(clean())
+});
+gulp.task('minifyImg', ['cleanImg'], function () {
+  gulp.src(['src/img/*/*', 'src/img/*'])
     .pipe(image({
       pngquant: true,
       optipng: false,
