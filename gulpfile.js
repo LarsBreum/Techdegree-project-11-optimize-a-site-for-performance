@@ -9,6 +9,7 @@ const htmlmin = require('gulp-htmlmin');
 const image = require('gulp-image');
 const clean = require('gulp-clean');
 const webserver = require('gulp-webserver');
+const inlinesource = require('gulp-inline-source');
 
 
 gulp.task('process-css', () => {
@@ -77,11 +78,17 @@ gulp.task('minifyImg', ['cleanImg'], function () {
     .pipe(gulp.dest('./dist/img'));
 });
 
+gulp.task('inlinesource', () => {
+	return gulp.src('*.html')
+		.pipe(inlinesource())
+		.pipe(gulp.dest('./dist'));
+});
+
 gulp.task('clean', () => {
 	return gulp.src(['./dist/css', './dist/js', './dist/*.html'])
 		.pipe(clean())
 });
 
-gulp.task('build', ['clean', 'process-css', 'concatJS', 'minifyJS', 'minifyHTML'])
+gulp.task('build', ['clean', 'inlinesource', 'process-css', 'concatJS', 'minifyJS', 'minifyHTML'])
 
 gulp.task('default', ['build']);
